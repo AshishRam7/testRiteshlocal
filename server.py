@@ -68,8 +68,10 @@ default_comment_response_negative = "We are sorry to hear you're not satisfied. 
 # Save Webhook Events to JSON File
 WEBHOOK_FILE = "webhook_events.json"
 
-CELERY_BROKER_URL = "rediss://red-cul4k23tq21c73bo2skg:nN1wjHHGVdxfuVLRVuWUrOYmBaakAf4d@oregon-keyvalue.render.com:6379"
-CELERY_RESULT_BACKEND = "rediss://red-cul4k23tq21c73bo2skg:nN1wjHHGVdxfuVLRVuWUrOYmBaakAf4d@oregon-keyvalue.render.com:6379"
+# --- MODIFICATION: In-Memory Broker and Backend ---
+CELERY_BROKER_URL = 'memory://'
+CELERY_RESULT_BACKEND = 'cache+memory://'
+# -------------------------------------------------
 
 
 celery = Celery(__name__, broker=CELERY_BROKER_URL, backend=CELERY_RESULT_BACKEND)
@@ -507,4 +509,4 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=5000)
